@@ -9,7 +9,8 @@ app.use(express.static("public"));
 app.use(cors());
 
 app.get('/', function(req, res){
-    res.sendFile(__dirname + '/index.html');
+    res.send("App running");
+    res.end();
 });
 
 function pushData(data){
@@ -22,6 +23,7 @@ app.get('/msg', function(req, res){
     pushData(data);
     console.log(data);
     res.send(data)
+    res.end();
 });
 
 io.on('connection', function(socket){
