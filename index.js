@@ -9,8 +9,7 @@ app.use(express.static("public"));
 app.use(cors());
 
 app.get('/', function(req, res){
-    res.send("App running");
-    res.end();
+    console.log("sample req")
 });
 
 function pushData(data){
@@ -23,7 +22,6 @@ app.get('/msg', function(req, res){
     pushData(data);
     console.log(data);
     res.send(data)
-    res.end();
 });
 
 io.on('connection', function(socket){
