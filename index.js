@@ -40,7 +40,7 @@ app.post("/spin", function(req, res) {
       }
     }
   };
-  pushData(data);
+  pushData(speech);
 
   return res.json({
     payload: speechResponse,
@@ -54,11 +54,6 @@ app.post("/spin", function(req, res) {
 
 app.get('/', function(req, res){
     console.log("sample req")
-});
-
-app.get('/new', function(req, res){
-  https.get("https://connect-spin.herokuapp.com/msg?data=spin");
-  res.send("done");
 });
 
 function pushData(data){
