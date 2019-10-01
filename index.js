@@ -10,7 +10,7 @@ app.use(express.static("public"));
 
 app.use(cors());
 
-restService.use(
+app.use(
   bodyParser.urlencoded({
     extended: true
   })
