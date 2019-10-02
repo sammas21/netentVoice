@@ -56,7 +56,7 @@ app.post("/spin", function(req, res) {
 });
 
 function pushData(data){
-    appRes = "No Response received";
+    appRes = "Spin Started !!! Best of luck";
     console.log("dis go to this");
     io.emit('request', data);
 }
