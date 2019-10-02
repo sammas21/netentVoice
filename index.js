@@ -6,7 +6,7 @@ var cors = require('cors');
 var {https} = require('https');
 const bodyParser = require("body-parser");
 
-var appRes = "No Response received";
+var appRes;
 
 //app.use(express.static("public"));
 
@@ -56,6 +56,7 @@ app.post("/spin", function(req, res) {
 });
 
 function pushData(data){
+    appRes = "No Response received";
     console.log("dis go to this");
     io.emit('request', data);
 }
