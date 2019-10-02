@@ -6,7 +6,7 @@ var cors = require('cors');
 var {https} = require('https');
 const bodyParser = require("body-parser");
 
-app.use(express.static("public"));
+//app.use(express.static("public"));
 
 app.use(cors());
 
@@ -50,10 +50,6 @@ app.post("/spin", function(req, res) {
     displayText: speech,
     source: "webhook-echo-sample"
   });
-});
-
-app.get('/', function(req, res){
-    console.log("sample req")
 });
 
 function pushData(data){
