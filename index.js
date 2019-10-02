@@ -6,6 +6,8 @@ var cors = require('cors');
 var {https} = require('https');
 const bodyParser = require("body-parser");
 
+var appRes = "No Response received";
+
 //app.use(express.static("public"));
 
 app.use(cors());
@@ -20,12 +22,14 @@ app.use(bodyParser.json());
 
 app.post("/spin", function(req, res) {
   var speech = "spin";
+
     // req.body.queryResult &&
     // req.body.queryResult.parameters &&
     // req.body.queryResult.parameters.echoText
     //   ? req.body.queryResult.parameters.echoText
     //   : "Seems like some problem. Speak again.";
-  
+  pushData(speech);
+
   var speechResponse = {
     google: {
       expectUserResponse: true,
@@ -33,28 +37,27 @@ app.post("/spin", function(req, res) {
         items: [
           {
             simpleResponse: {
-              textToSpeech: speech
+              textToSpeech: appRes
             }
           }
         ]
       }
     }
-  };
-  pushData(speech);
+  };  
 
   return res.json({
     payload: speechResponse,
     //data: speechResponse,
-    fulfillmentText: speech,
-    speech: speech,
-    displayText: speech,
-    source: "webhook-echo-sample"
+    fulfillmentText: appRes,
+    speech: appRes,
+    displayText: appRes,
+    source: "connection-video-slot"
   });
 });
 
 function pushData(data){
     console.log("dis go to this");
-    io.emit('chat message', data);
+    io.emit('request', data);
 }
 
 io.on('connection', function(socket){
@@ -65,15 +68,15 @@ io.on('connection', function(socket){
 });
 
 io.on('connection', function(socket){
-    socket.on('chat message', function(msg){
-      console.log('message: ' + msg);
+    socket.on('request', function(msg){
+      console.log('request: ' + msg);
+      io.emit('request', msg);
     });
-});
 
-io.on('connection', function(socket){
-    socket.on('chat message', function(msg){
-      io.emit('chat message', msg);
+    socket.on('response', function(msg){
+      appRes = msg;
     });
+
 });
 
 http.listen(process.env.PORT || 3000);
