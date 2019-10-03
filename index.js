@@ -65,7 +65,49 @@ app.post("/spin", function(request, response) {
         source: "connection-video-slot"
       });
     }  
-  pushData(speech);
+
+    function onSetSound(agent){   
+      var opt = req.body.queryResult &&
+                    req.body.queryResult.parameters &&
+                    req.body.queryResult.parameters.soundOpt
+                    ? req.body.queryResult.parameters.soundOpt : "Seems like some problem. Speak again.";
+
+      appRes = "not done";  
+
+      if (opt == "stop audio"){
+        pushData(speech);
+        appRes = "Audio muted";
+      } else {
+        appRes = "Try Again";
+      }
+
+      var speechResponse = {
+        google: {
+          expectUserResponse: true,
+          richResponse: {
+            items: [
+              {
+                simpleResponse: {
+                  textToSpeech: appRes
+                }
+              }
+            ]
+          }
+        }
+      };  
+    
+      return response.json({
+        payload: speechResponse,
+        //data: speechResponse,
+        fulfillmentText: appRes,
+        speech: appRes,
+        displayText: appRes,
+        source: "connection-video-slot"
+      });
+    }  
+
+
+  //pushData(speech);
 
   // var speechResponse = {
   //   google: {
@@ -96,6 +138,7 @@ app.post("/spin", function(request, response) {
   // intentMap.set('Default Welcome Intent', welcome);
   // intentMap.set('Default Fallback Intent', fallback);
   intentMap.set('Spinstart', spinStarted);
+  intentMap.set('setSound', onSetSound);
   // intentMap.set('your intent name here', googleAssistantHandler);
   agent.handleRequest(intentMap);
 });
