@@ -36,41 +36,15 @@ app.post("/spin", function(request, response) {
 
     function spinStarted(agent){   
       var speech = "spin";
-      //let conv = agent.conv(); // Get Actions on Google library conv instance
-      //agent.add(`Welcome to my agent!`);
-      //https.get("https://connect-spin.herokuapp.com/msg?data=spin");
+      appRes = "spin Started !! Best of luck"
       pushData(speech);
-
-      var speechResponse = {
-        google: {
-          expectUserResponse: true,
-          richResponse: {
-            items: [
-              {
-                simpleResponse: {
-                  textToSpeech: appRes
-                }
-              }
-            ]
-          }
-        }
-      };  
-      agent.add(appRes);
-      // return response.json({
-      //   payload: speechResponse,
-      //   //data: speechResponse,
-      //   fulfillmentText: appRes,
-      //   speech: appRes,
-      //   displayText: appRes,
-      //   source: "connection-video-slot"
-      // });
     }  
 
     function onSetSound(agent){   
-      var opt = req.body.queryResult &&
-                    req.body.queryResult.parameters &&
-                    req.body.queryResult.parameters.soundOpt
-                    ? req.body.queryResult.parameters.soundOpt : "Seems like some problem. Speak again.";
+      var opt = request.body.queryResult &&
+                    request.body.queryResult.parameters &&
+                    request.body.queryResult.parameters.soundOpt
+                    ? request.body.queryResult.parameters.soundOpt : "Seems like some problem. Speak again.";
 
       appRes = "not done";  
 
@@ -80,33 +54,39 @@ app.post("/spin", function(request, response) {
       } else {
         appRes = "Try Again";
       }
-
-      var speechResponse = {
-        google: {
-          expectUserResponse: true,
-          richResponse: {
-            items: [
-              {
-                simpleResponse: {
-                  textToSpeech: appRes
-                }
-              }
-            ]
-          }
-        }
-      };  
-    agent.add('appRes');
-      // return response.json({
-      //   payload: speechResponse,
-      //   //data: speechResponse,
-      //   fulfillmentText: appRes,
-      //   speech: appRes,
-      //   displayText: appRes,
-      //   source: "connection-video-slot"
-      // });
     }  
 
+    // function spinStarted(agent){   
+    //   var speech = "spin";
+    //   //let conv = agent.conv(); // Get Actions on Google library conv instance
+    //   //agent.add(`Welcome to my agent!`);
+    //   //https.get("https://connect-spin.herokuapp.com/msg?data=spin");
+    //   pushData(speech);
 
+    //   var speechResponse = {
+    //     google: {
+    //       expectUserResponse: true,
+    //       richResponse: {
+    //         items: [
+    //           {
+    //             simpleResponse: {
+    //               textToSpeech: appRes
+    //             }
+    //           }
+    //         ]
+    //       }
+    //     }
+    //   };  
+    //   agent.add(appRes);
+    //   // return response.json({
+    //   //   payload: speechResponse,
+    //   //   //data: speechResponse,
+    //   //   fulfillmentText: appRes,
+    //   //   speech: appRes,
+    //   //   displayText: appRes,
+    //   //   source: "connection-video-slot"
+    //   // });
+    // }  
   //pushData(speech);
 
   // var speechResponse = {
@@ -141,10 +121,34 @@ app.post("/spin", function(request, response) {
   intentMap.set('setSound', onSetSound);
   // intentMap.set('your intent name here', googleAssistantHandler);
   agent.handleRequest(intentMap);
+
+var speechResponse = {
+    google: {
+      expectUserResponse: true,
+      richResponse: {
+        items: [
+          {
+            simpleResponse: {
+              textToSpeech: appRes
+            }
+          }
+        ]
+      }
+    }
+  };  
+
+  return response.json({
+    payload: speechResponse,
+    //data: speechResponse,
+    fulfillmentText: appRes,
+    speech: appRes,
+    displayText: appRes,
+    source: "connection-video-slot"
+  });
 });
 
 function pushData(data){
-    appRes = "Spin Started !!! Best of luck";
+    //appRes = "Spin Started !!! Best of luck";
     console.log("dis go to this");
     io.emit('request', data);
 }
