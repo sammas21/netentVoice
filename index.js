@@ -8,8 +8,6 @@ const {WebhookClient} = require('dialogflow-fulfillment');
 const {Card, Suggestion} = require('dialogflow-fulfillment');
 const bodyParser = require("body-parser");
 
-var appRes;
-
 //app.use(express.static("public"));
 
 app.use(cors());
@@ -37,29 +35,39 @@ var processWebhook = function( request, response ){
   console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
 
   function spinStarted(agent){
-    agent.add("thi is it");
+    pushData("spin");
+    agent.add("Best of luck !! And the spining starts");
   };
 
-  function onSetSoundOn(agent){
-    agent.add("on Set Sound On");
+  function setSoundOn(agent){
+    pushData("soundOn");
+    agent.add("Audio Turned On !! Enjoy the sound");
   };
 
-  function onSetSoundOff(agent){
-    agent.add("on Set Sound off");
+  function setSoundOff(agent){
+    pushData("soundOff");
+    agent.add("Audio turned off !! Just say play audio to turn it on");
   };
   
 
-  function onFeatureSplashClose(agent){
-    agent.add("on feature splash closed");
+  function closeFeatureSplash(agent){
+    pushData("closeFeatureSplash");
+    agent.add("Feature splash closed !! you can watch it on next game load");
+  };
+
+  function setBetLevel(agent){
+    pushData("setBetLevel");
+    agent.add("Bet level set to 3, We will soon set it to the value you gave");
   };
 
   let intentMap = new Map();
   // intentMap.set('Default Welcome Intent', welcome);
   // intentMap.set('Default Fallback Intent', fallback);
   intentMap.set('Spinstart', spinStarted);
-  intentMap.set('Set Sound On', onSetSoundOn);
-  intentMap.set('Set Sound Off', onSetSoundOff);
-  intentMap.set('Feature Splash Close', onFeatureSplashClose);
+  intentMap.set('Set Sound On', setSoundOn);
+  intentMap.set('Set Sound Off', setSoundOff);
+  intentMap.set('Feature Splash Close', closeFeatureSplash);
+  intentMap.set('Set Bet Level', setBetLevel);
   // intentMap.set('your intent name here', googleAssistantHandler);
   agent.handleRequest(intentMap);
   
