@@ -20,9 +20,9 @@ app.use(
 
 app.use(bodyParser.json());
 
-app.use( express.json() );
-
-app.get('/spin', (req, res) => processWebhook( req, res ));
+app.get('/spin', (req, res) =>{
+  console.log("did enter", req)
+});// processWebhook( req, res ));
 
 http.listen(process.env.PORT || 3000);
 
