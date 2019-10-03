@@ -55,15 +55,15 @@ app.post("/spin", function(request, response) {
           }
         }
       };  
-    
-      return response.json({
-        payload: speechResponse,
-        //data: speechResponse,
-        fulfillmentText: appRes,
-        speech: appRes,
-        displayText: appRes,
-        source: "connection-video-slot"
-      });
+      agent.add(appRes);
+      // return response.json({
+      //   payload: speechResponse,
+      //   //data: speechResponse,
+      //   fulfillmentText: appRes,
+      //   speech: appRes,
+      //   displayText: appRes,
+      //   source: "connection-video-slot"
+      // });
     }  
 
     function onSetSound(agent){   
@@ -95,15 +95,15 @@ app.post("/spin", function(request, response) {
           }
         }
       };  
-    
-      return response.json({
-        payload: speechResponse,
-        //data: speechResponse,
-        fulfillmentText: appRes,
-        speech: appRes,
-        displayText: appRes,
-        source: "connection-video-slot"
-      });
+    agent.add('appRes');
+      // return response.json({
+      //   payload: speechResponse,
+      //   //data: speechResponse,
+      //   fulfillmentText: appRes,
+      //   speech: appRes,
+      //   displayText: appRes,
+      //   source: "connection-video-slot"
+      // });
     }  
 
 
