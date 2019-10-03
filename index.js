@@ -75,7 +75,7 @@ app.post("/spin", function(request, response) {
       appRes = "not done";  
 
       if (opt == "stop audio"){
-        pushData(speech);
+        pushData(opt);
         appRes = "Audio muted";
       } else {
         appRes = "Try Again";
