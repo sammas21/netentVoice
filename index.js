@@ -23,8 +23,9 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.post('/spin', (req, res) =>{
-  console.log("did enter", req);
-  processWebhook( req, res )});
+  //console.log("did enter", req);
+  processWebhook( req, res )
+});
 
 http.listen(process.env.PORT || 3000);
 
@@ -37,6 +38,10 @@ var processWebhook = function( request, response ){
 
   function spinStarted(agent){
     agent.add("thi is it");
+  }
+
+  function onSetSound(agent){
+    agent.add("onSetSound");
   }
 
   let intentMap = new Map();
