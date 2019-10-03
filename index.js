@@ -20,39 +20,84 @@ app.use(
 
 app.use(bodyParser.json());
 
-app.post("/spin", function(req, res) {
-  var speech = "spin";
+app.post("/spin", function(request, response) {
+
+  const agent = new WebhookClient({ request, response });
+  console.log('Dialogflow Request headers: ' + JSON.stringify(request.headers));
+  console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
+
+  
 
     // req.body.queryResult &&
     // req.body.queryResult.parameters &&
     // req.body.queryResult.parameters.echoText
     //   ? req.body.queryResult.parameters.echoText
     //   : "Seems like some problem. Speak again.";
+
+    function spinStarted(agent){   
+      var speech = "spin";
+      //let conv = agent.conv(); // Get Actions on Google library conv instance
+      //agent.add(`Welcome to my agent!`);
+      //https.get("https://connect-spin.herokuapp.com/msg?data=spin");
+      pushData(speech);
+
+      var speechResponse = {
+        google: {
+          expectUserResponse: true,
+          richResponse: {
+            items: [
+              {
+                simpleResponse: {
+                  textToSpeech: appRes
+                }
+              }
+            ]
+          }
+        }
+      };  
+    
+      return response.json({
+        payload: speechResponse,
+        //data: speechResponse,
+        fulfillmentText: appRes,
+        speech: appRes,
+        displayText: appRes,
+        source: "connection-video-slot"
+      });
+    }  
   pushData(speech);
 
-  var speechResponse = {
-    google: {
-      expectUserResponse: true,
-      richResponse: {
-        items: [
-          {
-            simpleResponse: {
-              textToSpeech: appRes
-            }
-          }
-        ]
-      }
-    }
-  };  
+  // var speechResponse = {
+  //   google: {
+  //     expectUserResponse: true,
+  //     richResponse: {
+  //       items: [
+  //         {
+  //           simpleResponse: {
+  //             textToSpeech: appRes
+  //           }
+  //         }
+  //       ]
+  //     }
+  //   }
+  // };  
 
-  return res.json({
-    payload: speechResponse,
-    //data: speechResponse,
-    fulfillmentText: appRes,
-    speech: appRes,
-    displayText: appRes,
-    source: "connection-video-slot"
-  });
+  // return response.json({
+  //   payload: speechResponse,
+  //   //data: speechResponse,
+  //   fulfillmentText: appRes,
+  //   speech: appRes,
+  //   displayText: appRes,
+  //   source: "connection-video-slot"
+  // });
+
+  // Run the proper function handler based on the matched Dialogflow intent name
+  let intentMap = new Map();
+  // intentMap.set('Default Welcome Intent', welcome);
+  // intentMap.set('Default Fallback Intent', fallback);
+  intentMap.set('Spinstart', spinStarted);
+  // intentMap.set('your intent name here', googleAssistantHandler);
+  agent.handleRequest(intentMap);
 });
 
 function pushData(data){
