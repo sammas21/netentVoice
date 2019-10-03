@@ -2,8 +2,9 @@ var express = require('express');
 var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+const {WebhookClient} = require('dialogflow-fulfillment');
+const {Card, Suggestion} = require('dialogflow-fulfillment');
 var cors = require('cors');
-var {https} = require('https');
 const bodyParser = require("body-parser");
 
 var appRes;
@@ -21,6 +22,8 @@ app.use(
 app.use(bodyParser.json());
 
 app.post("/spin", function(req, res) {
+
+  
   var speech = "spin";
 
     // req.body.queryResult &&
