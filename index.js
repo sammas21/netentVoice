@@ -38,17 +38,28 @@ var processWebhook = function( request, response ){
 
   function spinStarted(agent){
     agent.add("thi is it");
-  }
+  };
 
-  function onSetSound(agent){
-    agent.add("onSetSound");
-  }
+  function onSetSoundOn(agent){
+    agent.add("on Set Sound On");
+  };
+
+  function onSetSoundOff(agent){
+    agent.add("on Set Sound off");
+  };
+  
+
+  function onFeatureSplashClose(agent){
+    agent.add("on feature splash closed");
+  };
 
   let intentMap = new Map();
   // intentMap.set('Default Welcome Intent', welcome);
   // intentMap.set('Default Fallback Intent', fallback);
   intentMap.set('Spinstart', spinStarted);
-  intentMap.set('setSound', onSetSound);
+  intentMap.set('Set Sound On', onSetSoundOn);
+  intentMap.set('Set Sound Off', onSetSoundOff);
+  intentMap.set('Feature Splash Close', onFeatureSplashClose);
   // intentMap.set('your intent name here', googleAssistantHandler);
   agent.handleRequest(intentMap);
   
