@@ -12,23 +12,23 @@ var appRes;
 
 app.use(cors());
 
-app.use(
-  bodyParser.urlencoded({
-    extended: true
-  })
-);
+// app.use(
+//   bodyParser.urlencoded({
+//     extended: true
+//   })
+// );
 
 app.use(bodyParser.json());
 
 app.post('/spin', (req, res) =>{
   console.log("did enter", req);
-});// processWebhook( req, res ));
+  processWebhook( req, res )});
 
 http.listen(process.env.PORT || 3000);
 
 var processWebhook = function( request, response ){
 
-  console.log("--->",request);
+  console.log("-------->");
   const agent = new WebhookClient({ request, response });
   console.log('Dialogflow Request headers: ' + JSON.stringify(request.headers));
   console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
