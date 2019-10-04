@@ -36,7 +36,7 @@ var processWebhook = function( request, response ){
 
   function spinStarted(agent){
     pushData("spin");
-    agent.add("Best of luck !! And the spining starts");
+    agent.add("Best of luck !! And the spinning starts");
   };
 
   function setSoundOn(agent){
