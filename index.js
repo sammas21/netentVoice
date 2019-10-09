@@ -36,17 +36,17 @@ var processWebhook = function( request, response ){
 
   function spinStarted(agent){
     pushData("spin");
-    agent.add("Best of luck !! And the spinning starts");
+    agent.add("Best of luck !");
   };
 
   function setSoundOn(agent){
     pushData("soundOn");
-    agent.add("Audio Turned On !! Enjoy the sound");
+    agent.add("Audio Turned On !! Enjoy the music");
   };
 
   function setSoundOff(agent){
     pushData("soundOff");
-    agent.add("Audio turned off !! Just say play audio to turn it on");
+    agent.add("Audio turned off !");
   };
   
 
@@ -57,7 +57,12 @@ var processWebhook = function( request, response ){
 
   function setBetLevel(agent){
     pushData("setBetLevel");
-    agent.add("Bet level set to 3, We will soon set it to the value you gave");
+    agent.add("Bet level set to 3");
+  };
+
+  function setAutoplay(agent){
+    pushData("setBetLevel");
+    agent.add("How many rounds do you want to play?");
   };
 
   let intentMap = new Map();
@@ -68,6 +73,8 @@ var processWebhook = function( request, response ){
   intentMap.set('Set Sound Off', setSoundOff);
   intentMap.set('Feature Splash Close', closeFeatureSplash);
   intentMap.set('Set Bet Level', setBetLevel);
+  intentMap.set('Set Autoplay', setAutoplay);
+  intentMap.set('Start Auto Play', setBetLevel);
   // intentMap.set('your intent name here', googleAssistantHandler);
   agent.handleRequest(intentMap);
   
