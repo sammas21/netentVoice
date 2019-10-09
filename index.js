@@ -35,35 +35,69 @@ var processWebhook = function( request, response ){
   console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
 
   function spinStarted(agent){
-    pushData("spin");
+    let obj = {
+      "intent" : "spin"
+    };
+
+    pushData(obj);
     agent.add("Best of luck !");
   };
 
   function setSoundOn(agent){
-    pushData("soundOn");
+    let obj = {
+      "intent" : "soundOn"
+    };
+    pushData(obj);
     agent.add("Audio Turned On !! Enjoy the music");
   };
 
   function setSoundOff(agent){
-    pushData("soundOff");
+    let obj = {
+      "intent" : "soundOff"
+    };
+    
+    pushData(obj);
     agent.add("Audio turned off !");
   };
   
 
   function closeFeatureSplash(agent){
-    pushData("closeFeatureSplash");
+    let obj = {
+      "intent" : "closeFeatureSplash"
+    };
+
+    pushData(obj);
     agent.add("Feature splash closed !! you can watch it on next game load");
   };
 
   function setBetLevel(agent){
-    pushData("setBetLevel");
-    agent.add("Bet level set to 3");
+    const betLevel = agent.parameters['betLevel'];
+
+    if(!betLevel){
+      agent.add("please Tell bet level value");
+      
+    }else if (betLevel <=0 || betLevel >=11){
+      agent.add("please Tell value between 1  and 10");
+    }else{
+      let obj = {
+        "intent" : "setBetLevel",
+        "betLevel": betLevel
+      };
+  
+      pushData(obj);
+      agent.add("Bet level set to "+betLevel);
+
+    }
   };
 
   function setAutoplay(agent){
-    pushData("setBetLevel");
+    let obj = {
+      "intent" : "startAutoplay"
+    };
+    pushData(obj);
     agent.add("How many rounds do you want to play?");
   };
+
 
   let intentMap = new Map();
   // intentMap.set('Default Welcome Intent', welcome);
@@ -80,28 +114,27 @@ var processWebhook = function( request, response ){
   
 };
 
-function pushData(data){
+function pushData(obj){
     //appRes = "Spin Started !!! Best of luck";
     console.log("dis go to this");
-    io.emit('request', data);
+    io.emit('request', obj);
 };
 
 io.on('connection', function(socket){
-    console.log('a user connected');
-    socket.on('disconnect', function(){
-      console.log('user disconnected');
-    });
+  console.log('a user connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
 });
 
 io.on('connection', function(socket){
-    socket.on('request', function(msg){
-      console.log('request: ' + msg);
-      io.emit('request', msg);
-    });
+  socket.on('request', function(msg){
+    console.log('request: ' + msg);
+    io.emit('request', msg);
+  });
 
-    socket.on('response', function(msg){
-      appRes = msg;
-    });
-
+  socket.on('response', function(msg){
+    appRes = msg;
+  });
 });
 
