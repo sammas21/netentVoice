@@ -7,6 +7,7 @@ var {https} = require('https');
 const {WebhookClient} = require('dialogflow-fulfillment');
 const {Card, Suggestion} = require('dialogflow-fulfillment');
 const bodyParser = require("body-parser");
+const respText = require("./resptext.json")
 
 //app.use(express.static("public"));
 
@@ -36,16 +37,16 @@ var processWebhook = function( request, response ){
 
   function spinStarted(agent){
     let obj = {
-      "intent" : "spin"
+      intent : "spin"
     };
 
     pushData(obj);
-    agent.add("Best of luck !");
+    agent.add(getRespText(obj.intent));
   };
 
   function setSoundOn(agent){
     let obj = {
-      "intent" : "soundOn"
+      intent : "soundOn"
     };
     pushData(obj);
     agent.add("Audio Turned On !! Enjoy the music");
@@ -53,7 +54,7 @@ var processWebhook = function( request, response ){
 
   function setSoundOff(agent){
     let obj = {
-      "intent" : "soundOff"
+      intent : "soundOff"
     };
     
     pushData(obj);
@@ -63,7 +64,7 @@ var processWebhook = function( request, response ){
 
   function closeFeatureSplash(agent){
     let obj = {
-      "intent" : "closeFeatureSplash"
+      intent : "closeFeatureSplash"
     };
 
     pushData(obj);
@@ -80,22 +81,48 @@ var processWebhook = function( request, response ){
       agent.add("please Tell value between 1  and 10");
     }else{
       let obj = {
-        "intent" : "setBetLevel",
-        "betLevel": betLevel
+        intent : "setBetLevel",
+        betLevel: betLevel
       };
   
       pushData(obj);
       agent.add("Bet level set to "+betLevel);
-
     }
   };
 
   function setAutoplay(agent){
-    let obj = {
-      "intent" : "startAutoplay"
-    };
-    pushData(obj);
+
+    const autoplayRounds  = agent.parameters['autoplay-rounds'], 
+          startAutoplay = agent.parameters['start-autoplay'];
+
+    let shouldStartAutoplay = false
+
+    // if (!startAutoplay || !autoplayRounds){
+    //   if (!startAutoplay){
+    //      agent.add(`Please say start Autoplay`);
+    //   }
+    //   else if (){
+    //     agent.add(`please tell number of Autoplay rounds you want to play or say start Autoplay to play with default value`);
+        
+    //   }else{
+    //     agent.add(`please tell number of Autoplay rounds you want to play and then say Start autoplay`);
+    //   }
+    // }else if(true){
+
+    // }else{
+      
+    //   let obj = {
+    //     intent : "startAutoplay",
+    //     autoplayRounds : autoplayRounds,
+    //     startAutoplay : 
+    //   };
+    //   pushData(obj);
+    //   agent.add("How many rounds do you want to play?");
+
+    // }
+ 
     agent.add("How many rounds do you want to play?");
+    
   };
 
 
@@ -114,11 +141,20 @@ var processWebhook = function( request, response ){
   
 };
 
+//function to send data to game client
 function pushData(obj){
     //appRes = "Spin Started !!! Best of luck";
     console.log("dis go to this");
     io.emit('request', obj);
 };
+
+//function to send random response to user
+function getRespText(intent){
+  let respArr = respText[intent],
+      res, num;
+      num = Math.floor(Math.random()*respArr.length);
+  return respArr[num];
+}
 
 io.on('connection', function(socket){
   console.log('a user connected');
