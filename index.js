@@ -49,7 +49,7 @@ var processWebhook = function( request, response ){
       intent : "soundOn"
     };
     pushData(obj);
-    agent.add("Audio Turned On !! Enjoy the music");
+    agent.add(getRespText(obj.intent));
   };
 
   function setSoundOff(agent){
@@ -58,7 +58,7 @@ var processWebhook = function( request, response ){
     };
     
     pushData(obj);
-    agent.add("Audio turned off !");
+    agent.add(getRespText(obj.intent));
   };
   
 
@@ -68,7 +68,7 @@ var processWebhook = function( request, response ){
     };
 
     pushData(obj);
-    agent.add("Feature splash closed !! you can watch it on next game load");
+    agent.add(getRespText(obj.intent));
   };
 
   function setBetLevel(agent){
@@ -86,43 +86,30 @@ var processWebhook = function( request, response ){
       };
   
       pushData(obj);
-      agent.add("Bet level set to "+betLevel);
+      agent.add(getRespText(obj.intent)+betLevel);
     }
   };
 
   function setAutoplay(agent){
 
-    const autoplayRounds  = agent.parameters['autoplay-rounds'], 
-          startAutoplay = agent.parameters['start-autoplay'];
-
-    let shouldStartAutoplay = false
-
-    // if (!startAutoplay || !autoplayRounds){
-    //   if (!startAutoplay){
-    //      agent.add(`Please say start Autoplay`);
-    //   }
-    //   else if (){
-    //     agent.add(`please tell number of Autoplay rounds you want to play or say start Autoplay to play with default value`);
-        
-    //   }else{
-    //     agent.add(`please tell number of Autoplay rounds you want to play and then say Start autoplay`);
-    //   }
-    // }else if(true){
-
-    // }else{
-      
-    //   let obj = {
-    //     intent : "startAutoplay",
-    //     autoplayRounds : autoplayRounds,
-    //     startAutoplay : 
-    //   };
-    //   pushData(obj);
-    //   agent.add("How many rounds do you want to play?");
-
-    // }
- 
-    agent.add("How many rounds do you want to play?");
+    const autoplayRounds  = agent.parameters['autoplay-rounds'];
     
+    const arrRoundNo = [10,25,50,100,250,500,750,1000];
+    
+    if(!autoplayRounds){
+      agent.add("How many rounds do you want to autoplay?");
+      
+    }else if (!arrRoundNo.indexOf(autoplayRounds)>=0){
+      agent.add("Please tell a valid autoplay count value");
+    }else{
+      let obj = {
+        intent : "setAutoplay",
+        autoplayRounds: autoplayRounds
+      };
+  
+      pushData(obj);
+      agent.add(getRespText(obj.intent));
+    }    
   };
 
 
@@ -135,7 +122,6 @@ var processWebhook = function( request, response ){
   intentMap.set('Feature Splash Close', closeFeatureSplash);
   intentMap.set('Set Bet Level', setBetLevel);
   intentMap.set('Set Autoplay', setAutoplay);
-  intentMap.set('Start Auto Play', setBetLevel);
   // intentMap.set('your intent name here', googleAssistantHandler);
   agent.handleRequest(intentMap);
   
