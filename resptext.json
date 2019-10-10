@@ -4,6 +4,6 @@
     "soundOff":["Audio  turned off", "music turned off", "Sound off"],
     "closeFeatureSplash":["You can start playing", "Say spin to start round", "Intro screen closed"],
     "setBetLevel":["Bet level Changed to ", "bet level set to "],
-    "setAutoplay":["Autoplay started", "You are now playing auto"],
+    "setAutoplay":["Autoplay started, rounds are set to ", "You are now playing auto and number of rounds are "],
     "stopAutoplay":["Autoplay Stoped", "autoplay closed"]
 }
