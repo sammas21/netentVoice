@@ -1,8 +1,9 @@
 {
-    "spin":["Spinning started", "Here you go", "best Of luck"],
+    "spin":["Spinning started", "Here you go", "best of luck"],
     "soundOn":["enjoy the music", "Audio  turned on", "music turned on"],
     "soundOff":["Audio  turned off", "music turned off", "Sound off"],
     "closeFeatureSplash":["You can start playing", "Say spin to start round", "Intro screen closed"],
     "setBetLevel":["Bet level Changed to ", "bet level set to "],
-    "setAutoplay":["Autoplay started", "You are now playing auto"]
+    "setAutoplay":["Autoplay started", "You are now playing auto"],
+    "stopAutoplay":["Autoplay Stoped", "autoplay closed"]
 }

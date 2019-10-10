@@ -92,7 +92,7 @@ var processWebhook = function( request, response ){
 
   function setAutoplay(agent){
 
-    const autoplayRounds  = agent.parameters['autoplay-rounds'];
+    const autoplayRounds  = agent.parameters['autoplayRounds'];
     
     const arrRoundNo = [10,25,50,100,250,500,750,1000];
     
@@ -112,6 +112,13 @@ var processWebhook = function( request, response ){
     }    
   };
 
+  function stopAutoplay(agent){
+    let obj = {
+      intent : "stopAutoplay"
+    };
+    pushData(obj);
+    agent.add(getRespText(obj.intent));
+  };
 
   let intentMap = new Map();
   // intentMap.set('Default Welcome Intent', welcome);
@@ -122,6 +129,7 @@ var processWebhook = function( request, response ){
   intentMap.set('Feature Splash Close', closeFeatureSplash);
   intentMap.set('Set Bet Level', setBetLevel);
   intentMap.set('Set Autoplay', setAutoplay);
+  intentMap.set('Stop Autoplay', stopAutoplay);
   // intentMap.set('your intent name here', googleAssistantHandler);
   agent.handleRequest(intentMap);
   
