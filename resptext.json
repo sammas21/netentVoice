@@ -5,5 +5,5 @@
     "closeFeatureSplash":["You can start playing", "Say spin to start round", "Intro screen closed"],
     "setBetLevel":["Bet level Changed to ", "bet level set to "],
     "setAutoplay":["Autoplay started, rounds are set to ", "You are now playing auto and number of rounds are "],
-    "stopAutoplay":["Autoplay Stoped", "autoplay closed"]
+    "stopAutoplay":["Autoplay Stopped", "autoplay closed", "Autoplay is closed now"]
 }
