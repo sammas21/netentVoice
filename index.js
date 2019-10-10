@@ -99,7 +99,7 @@ var processWebhook = function( request, response ){
     if(!autoplayRounds){
       agent.add("How many rounds do you want to autoplay?");
       
-    }else if (!arrRoundNo.indexOf(autoplayRounds)>=0){
+    }else if (!(arrRoundNo.indexOf(autoplayRounds)>=0)){
       console.log("autoplay rounds : ",autoplayRounds);
       agent.add("Please tell a valid autoplay count value");
     }else{
